@@ -290,7 +290,9 @@ section {
     top: 100%;
     left: 0;
     width: 100%;
-    background-color: var(--white);
+    background: rgba(24, 25, 29, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     flex-direction: column !important;
     align-items: center;
     padding: 24px 0;
