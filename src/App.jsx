@@ -21,10 +21,12 @@ function App() {
 
   return (
     <>
-      <Header 
-        onRegisterSuccess={handleRegisterSuccess} 
-        onAdminLogin={() => setCurrentPage('admin')} 
-      />
+      {currentPage !== 'admin' && (
+        <Header 
+          onRegisterSuccess={handleRegisterSuccess} 
+          onAdminLogin={() => setCurrentPage('admin')} 
+        />
+      )}
       {currentPage === 'home' ? (
         <>
           <Hero />

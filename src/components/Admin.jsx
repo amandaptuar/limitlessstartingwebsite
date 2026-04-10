@@ -184,6 +184,7 @@ const styles = {
   grid: {
     display: 'grid',
     gridTemplateColumns: 'repeat(auto-fill, minmax(360px, 1fr))',
+    alignItems: 'start',
     gap: '30px'
   },
   card: {
