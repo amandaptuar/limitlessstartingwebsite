@@ -55,7 +55,6 @@ const Header = () => {
               <div className="burger-line"></div>
             </div>
             <nav className={`header-nav ${menuOpen ? 'nav-open' : ''}`}>
-              <a href="#system" className="header-link" onClick={() => setMenuOpen(false)}>The System</a>
               <a href="#audit" className="header-link" onClick={() => setMenuOpen(false)}>The Audit</a>
               <button
                 className="btn btn-dark header-login"
