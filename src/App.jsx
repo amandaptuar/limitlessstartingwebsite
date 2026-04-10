@@ -7,15 +7,25 @@ import Pillars from './components/Pillars';
 import CheckoutFunnels from './components/CheckoutFunnels';
 import Footer from './components/Footer';
 
+import Question from './components/Question';
+
 function App() {
+  const [currentPage, setCurrentPage] = React.useState('home');
+
   return (
     <>
-      <Header />
-      <Hero />
-      <Problem />
-      <HowItWorks />
-      <Pillars />
-      <CheckoutFunnels />
+      <Header onRegisterSuccess={() => setCurrentPage('questions')} />
+      {currentPage === 'home' ? (
+        <>
+          <Hero />
+          <Problem />
+          <HowItWorks />
+          <Pillars />
+          <CheckoutFunnels />
+        </>
+      ) : (
+        <Question />
+      )}
       <Footer />
     </>
   );

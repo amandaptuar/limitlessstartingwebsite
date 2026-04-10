@@ -529,3 +529,54 @@ section {
     width: 100%;
   }
 }
+
+/* ===== Question Page Styles Responsive ===== */
+.question-form-panel {
+  padding: 40px;
+  border-radius: var(--radius-md);
+}
+
+.question-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: 20px;
+}
+
+@media (max-width: 768px) {
+  .question-form-panel {
+    padding: 20px;
+  }
+  .question-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+}
+
+/* ===== Question Page Section ===== */
+.question-section {
+  background-color: var(--dark);
+  position: relative;
+  overflow: hidden;
+}
+
+.question-section::before {
+  content: '';
+  position: absolute;
+  top: -10%;
+  left: -20%;
+  width: 70%;
+  height: 70%;
+  background: radial-gradient(circle, rgba(233, 161, 50, 0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.question-section::after {
+  content: '';
+  position: absolute;
+  bottom: -10%;
+  right: -20%;
+  width: 80%;
+  height: 80%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, transparent 60%);
+  pointer-events: none;
+}

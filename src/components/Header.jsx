@@ -1,38 +1,49 @@
 import React, { useState } from 'react';
 
-const Header = () => {
+const Header = ({ onRegisterSuccess }) => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [supportOpen, setSupportOpen] = useState(false);
-  const [formData, setFormData] = useState({ name: '', email: '', phone: '', countryCode: '+1', details: '' });
-  const [submitted, setSubmitted] = useState(false);
-
-  const countryCodes = [
-    { code: '+1', label: '🇺🇸 +1 (US)' },
-    { code: '+44', label: '🇬🇧 +44 (UK)' },
-    { code: '+91', label: '🇮🇳 +91 (IN)' },
-    { code: '+61', label: '🇦🇺 +61 (AU)' },
-    { code: '+971', label: '🇦🇪 +971 (UAE)' },
-    { code: '+65', label: '🇸🇬 +65 (SG)' },
-    { code: '+49', label: '🇩🇪 +49 (DE)' },
-    { code: '+33', label: '🇫🇷 +33 (FR)' },
-    { code: '+81', label: '🇯🇵 +81 (JP)' },
-    { code: '+86', label: '🇨🇳 +86 (CN)' },
-    { code: '+55', label: '🇧🇷 +55 (BR)' },
-    { code: '+52', label: '🇲🇽 +52 (MX)' },
-  ];
+  const [registerOpen, setRegisterOpen] = useState(false);
+  const [formData, setFormData] = useState({ 
+    name: '', 
+    email: '', 
+    password: '', 
+    confirmPassword: '', 
+    occupation: '', 
+    agreeTerms: false 
+  });
+  const [status, setStatus] = useState('idle'); // idle | submitting | success | error
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+    setFormData({ ...formData, [e.target.name]: value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setSubmitted(true);
+    if (formData.password !== formData.confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
+    if (!formData.agreeTerms) {
+      alert("You must agree to the terms and conditions");
+      return;
+    }
+
+    setStatus('submitting');
+
+    // Simulate API registration call
     setTimeout(() => {
-      setSubmitted(false);
-      setSupportOpen(false);
-      setFormData({ name: '', email: '', phone: '', countryCode: '+1', details: '' });
-    }, 2500);
+      setStatus('success');
+      setTimeout(() => {
+        setStatus('idle');
+        setRegisterOpen(false);
+        setFormData({ name: '', email: '', password: '', confirmPassword: '', occupation: '', agreeTerms: false });
+        if (onRegisterSuccess) {
+          onRegisterSuccess();
+          window.scrollTo(0, 0);
+        }
+      }, 1500);
+    }, 1500);
   };
 
   return (
@@ -58,10 +69,10 @@ const Header = () => {
               <a href="#audit" className="header-link" onClick={() => setMenuOpen(false)}>The Audit</a>
               <button
                 className="btn btn-dark header-login"
-                style={styles.supportBtn}
-                onClick={() => { setSupportOpen(true); setMenuOpen(false); }}
+                style={styles.registerBtn}
+                onClick={() => { setRegisterOpen(true); setMenuOpen(false); }}
               >
-                Support
+                Register
               </button>
             </nav>
           </div>
@@ -69,29 +80,29 @@ const Header = () => {
         </div>
       </header>
 
-      {/* Support Modal */}
-      {supportOpen && (
-        <div className="support-overlay" onClick={(e) => e.target === e.currentTarget && setSupportOpen(false)}>
+      {/* Register Modal */}
+      {registerOpen && (
+        <div className="support-overlay" onClick={(e) => e.target === e.currentTarget && setRegisterOpen(false)}>
           <div className="support-modal">
-            <button className="support-modal-close" onClick={() => setSupportOpen(false)} aria-label="Close">✕</button>
+            <button className="support-modal-close" onClick={() => setRegisterOpen(false)} aria-label="Close">✕</button>
 
-            {submitted ? (
+            {status === 'success' ? (
               <div className="support-success">
                 <div className="support-success-icon">✓</div>
-                <h3>Message Sent!</h3>
-                <p>We'll get back to you shortly.</p>
+                <h3>Registration Successful!</h3>
+                <p>Welcome, <strong style={{ color: 'var(--primary)' }}>{formData.name}</strong>!</p>
               </div>
             ) : (
               <>
                 <div className="support-modal-header">
-                  <h2>Contact Support</h2>
-                  <p>Fill in the form below and our team will reach out to you.</p>
+                  <h2>Register</h2>
+                  <p>Create your Limitless account.</p>
                 </div>
                 <form onSubmit={handleSubmit} className="support-form">
                   <div className="support-field">
-                    <label htmlFor="support-name">Full Name</label>
+                    <label htmlFor="register-name">Full Name</label>
                     <input
-                      id="support-name"
+                      id="register-name"
                       type="text"
                       name="name"
                       placeholder="Your full name"
@@ -102,9 +113,9 @@ const Header = () => {
                   </div>
 
                   <div className="support-field">
-                    <label htmlFor="support-email">Email Address</label>
+                    <label htmlFor="register-email">Email Address</label>
                     <input
-                      id="support-email"
+                      id="register-email"
                       type="email"
                       name="email"
                       placeholder="you@example.com"
@@ -115,46 +126,72 @@ const Header = () => {
                   </div>
 
                   <div className="support-field">
-                    <label htmlFor="support-phone">Phone Number</label>
-                    <div className="phone-input-group">
-                      <select
-                        id="support-country-code"
-                        name="countryCode"
-                        value={formData.countryCode}
-                        onChange={handleChange}
-                        className="country-code-select"
-                      >
-                        {countryCodes.map((c) => (
-                          <option key={c.code} value={c.code}>{c.label}</option>
-                        ))}
-                      </select>
-                      <input
-                        id="support-phone"
-                        type="tel"
-                        name="phone"
-                        placeholder="Phone number"
-                        value={formData.phone}
-                        onChange={handleChange}
-                        required
-                      />
-                    </div>
-                  </div>
-
-                  <div className="support-field">
-                    <label htmlFor="support-details">Details</label>
-                    <textarea
-                      id="support-details"
-                      name="details"
-                      placeholder="Describe your issue or question..."
-                      value={formData.details}
+                    <label htmlFor="register-password">Password</label>
+                    <input
+                      id="register-password"
+                      type="password"
+                      name="password"
+                      placeholder="Enter password"
+                      value={formData.password}
                       onChange={handleChange}
-                      rows="4"
                       required
                     />
                   </div>
 
-                  <button type="submit" className="btn btn-primary support-submit">
-                    Send Message
+                  <div className="support-field">
+                    <label htmlFor="register-confirmPassword">Confirm Password</label>
+                    <input
+                      id="register-confirmPassword"
+                      type="password"
+                      name="confirmPassword"
+                      placeholder="Confirm password"
+                      value={formData.confirmPassword}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+
+                  <div className="support-field">
+                    <label htmlFor="register-occupation">Occupation</label>
+                    <input
+                      id="register-occupation"
+                      type="text"
+                      name="occupation"
+                      placeholder="Your occupation"
+                      value={formData.occupation}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+
+                  <div className="support-field" style={{ flexDirection: 'row', alignItems: 'center', gap: '10px', marginTop: '5px' }}>
+                    <input
+                      id="register-agreeTerms"
+                      type="checkbox"
+                      name="agreeTerms"
+                      checked={formData.agreeTerms}
+                      onChange={handleChange}
+                      required
+                      style={{ width: 'auto', cursor: 'pointer' }}
+                    />
+                    <label htmlFor="register-agreeTerms" style={{ textTransform: 'none', cursor: 'pointer', margin: 0 }}>
+                      I agree to the Terms and Conditions
+                    </label>
+                  </div>
+
+                  {status === 'error' && (
+                    <p style={styles.errorMsg}>
+                      ⚠️ Registration failed. Please try again.
+                    </p>
+                  )}
+
+                  <button
+                    type="submit"
+                    className="btn btn-primary support-submit"
+                    disabled={status === 'submitting'}
+                    style={{ opacity: status === 'submitting' ? 0.7 : 1 }}
+                  >
+                    {status === 'submitting' ? 'Registering...' : 'Register'}
                   </button>
                 </form>
               </>
@@ -175,12 +212,21 @@ const styles = {
     zIndex: 1000,
     padding: '6px 0',
   },
-  supportBtn: {
+  registerBtn: {
     padding: '10px 24px',
     borderRadius: '4px',
     fontSize: '15px',
     cursor: 'pointer',
     border: 'none',
+  },
+  errorMsg: {
+    color: '#ff6b6b',
+    fontSize: '14px',
+    textAlign: 'center',
+    background: 'rgba(255,107,107,0.08)',
+    border: '1px solid rgba(255,107,107,0.2)',
+    borderRadius: '8px',
+    padding: '10px',
   }
 };
 
