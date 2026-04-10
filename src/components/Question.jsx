@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { supabase } from '../supabaseClient';
 
-const Question = () => {
+const Question = ({ userEmail }) => {
   const [formData, setFormData] = useState({});
   const [status, setStatus] = useState('idle');
 
@@ -12,13 +13,28 @@ const Question = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus('submitting');
-    setTimeout(() => {
+    
+    try {
+      const payload = { ...formData };
+      const { error } = await supabase
+        .from('users')
+        .update(payload)
+        .eq('email', userEmail);
+      
+      if (error) {
+        throw new Error(error.message || 'Failed to submit audit');
+      }
+
       setStatus('success');
       window.scrollTo(0, 0);
-    }, 1500);
+    } catch (err) {
+      console.error(err);
+      setStatus('idle');
+      alert("Error submitting assessment: " + err.message);
+    }
   };
 
   if (status === 'success') {

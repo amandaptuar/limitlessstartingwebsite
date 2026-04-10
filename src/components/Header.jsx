@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
+import { supabase } from '../supabaseClient';
 
-const Header = ({ onRegisterSuccess }) => {
+const Header = ({ onRegisterSuccess, onAdminLogin }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [registerOpen, setRegisterOpen] = useState(false);
   const [formData, setFormData] = useState({ 
-    name: '', 
+    name: '',  
     email: '', 
     password: '', 
     confirmPassword: '', 
@@ -12,38 +13,76 @@ const Header = ({ onRegisterSuccess }) => {
     agreeTerms: false 
   });
   const [status, setStatus] = useState('idle'); // idle | submitting | success | error
+  const [errorMsg, setErrorMsg] = useState('');
 
   const handleChange = (e) => {
     const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
     setFormData({ ...formData, [e.target.name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMsg('');
+
     if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match");
+      setErrorMsg("Passwords do not match");
+      setStatus('error');
       return;
     }
     if (!formData.agreeTerms) {
-      alert("You must agree to the terms and conditions");
+      setErrorMsg("You must agree to the terms and conditions");
+      setStatus('error');
+      return;
+    }
+
+    if (formData.email === 'admin@limitless.com' && formData.password === 'limitlessadmin') {
+      setStatus('idle');
+      setRegisterOpen(false);
+      if (onAdminLogin) onAdminLogin();
+      window.scrollTo(0, 0);
       return;
     }
 
     setStatus('submitting');
 
-    // Simulate API registration call
-    setTimeout(() => {
+    try {
+      const { error } = await supabase
+        .from('users')
+        .insert([
+          {
+            name: formData.name,
+            email: formData.email,
+            password: formData.password,
+            occupation: formData.occupation,
+            agree_terms: formData.agreeTerms
+          }
+        ]);
+
+      if (error) {
+        if (error.code === '23505') {
+          throw new Error('Email already exists.');
+        }
+        throw new Error(error.message || 'Failed to register');
+      }
+
       setStatus('success');
       setTimeout(() => {
         setStatus('idle');
         setRegisterOpen(false);
+        const savedEmail = formData.email;
         setFormData({ name: '', email: '', password: '', confirmPassword: '', occupation: '', agreeTerms: false });
+        setErrorMsg('');
         if (onRegisterSuccess) {
-          onRegisterSuccess();
+          onRegisterSuccess(savedEmail);
           window.scrollTo(0, 0);
         }
       }, 1500);
-    }, 1500);
+
+    } catch (err) {
+      console.error(err);
+      setStatus('error');
+      setErrorMsg(err.message);
+    }
   };
 
   return (
@@ -70,7 +109,12 @@ const Header = ({ onRegisterSuccess }) => {
               <button
                 className="btn btn-dark header-login"
                 style={styles.registerBtn}
-                onClick={() => { setRegisterOpen(true); setMenuOpen(false); }}
+                onClick={() => { 
+                  setRegisterOpen(true); 
+                  setMenuOpen(false); 
+                  setErrorMsg(''); 
+                  setStatus('idle');
+                }}
               >
                 Register
               </button>
@@ -179,9 +223,9 @@ const Header = ({ onRegisterSuccess }) => {
                     </label>
                   </div>
 
-                  {status === 'error' && (
+                  {status === 'error' && errorMsg && (
                     <p style={styles.errorMsg}>
-                      ⚠️ Registration failed. Please try again.
+                      ⚠️ {errorMsg}
                     </p>
                   )}
 

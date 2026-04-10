@@ -8,13 +8,23 @@ import CheckoutFunnels from './components/CheckoutFunnels';
 import Footer from './components/Footer';
 
 import Question from './components/Question';
+import Admin from './components/Admin';
 
 function App() {
   const [currentPage, setCurrentPage] = React.useState('home');
+  const [userEmail, setUserEmail] = React.useState('');
+
+  const handleRegisterSuccess = (email) => {
+    setUserEmail(email);
+    setCurrentPage('questions');
+  };
 
   return (
     <>
-      <Header onRegisterSuccess={() => setCurrentPage('questions')} />
+      <Header 
+        onRegisterSuccess={handleRegisterSuccess} 
+        onAdminLogin={() => setCurrentPage('admin')} 
+      />
       {currentPage === 'home' ? (
         <>
           <Hero />
@@ -23,10 +33,12 @@ function App() {
           <Pillars />
           <CheckoutFunnels />
         </>
+      ) : currentPage === 'questions' ? (
+        <Question userEmail={userEmail} />
       ) : (
-        <Question />
+        <Admin />
       )}
-      <Footer />
+      {currentPage !== 'admin' && <Footer />}
     </>
   );
 }
