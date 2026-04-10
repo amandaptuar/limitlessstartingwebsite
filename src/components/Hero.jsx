@@ -19,11 +19,17 @@ const Hero = () => {
         <div className="slide-up delay-300" style={styles.socialProof}>
           <p style={styles.proofText}>As used by founders and executives at:</p>
           <div style={styles.logos}>
-            <div style={styles.logoItem}>[Logo 1]</div>
+            <div style={styles.logoItem}>
+              <img src="/img/logo-1.png" alt="Partner Logo 1" style={styles.logoImg} />
+            </div>
             <span style={styles.dot}>•</span>
-            <div style={styles.logoItem}>[Logo 2]</div>
+            <div style={styles.logoItem}>
+              <img src="/img/logo-2.png" alt="Partner Logo 2" style={styles.logoImg} />
+            </div>
             <span style={styles.dot}>•</span>
-            <div style={styles.logoItem}>[Logo 3]</div>
+            <div style={styles.logoItem}>
+              <img src="/img/1.jpg" alt="Partner Logo 3" style={styles.logoImg} />
+            </div>
           </div>
         </div>
       </div>
@@ -91,10 +97,16 @@ const styles = {
     gap: '20px',
   },
   logoItem: {
-    fontFamily: 'var(--font-heading)',
-    fontWeight: '700',
-    fontSize: '20px',
-    color: '#ccc',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  logoImg: {
+    height: '40px',
+    width: 'auto',
+    maxWidth: '120px',
+    objectFit: 'contain',
+    transition: 'opacity 0.3s ease',
   },
   dot: {
     color: '#ccc',

@@ -9,9 +9,7 @@ const Problem = () => {
         <div style={styles.grid}>
           <div style={styles.card} className="slide-up delay-100 dark-glass-panel">
             <div style={styles.iconWrap}>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M18 6L6 18M6 6L18 18" stroke="var(--primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
+              <img src="/new/iStock-2177161931-1024x602.jpg" alt="Fragmented Systems" style={styles.iconImg} />
             </div>
             <h3 style={styles.cardTitle}>Fragmented Systems</h3>
             <p style={styles.cardText}>
@@ -21,9 +19,7 @@ const Problem = () => {
 
           <div style={styles.card} className="slide-up delay-200 dark-glass-panel">
             <div style={styles.iconWrap}>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M18 6L6 18M6 6L18 18" stroke="var(--primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
+              <img src="/new/shutterstock_491481550.jpg" alt="Information Overload" style={styles.iconImg} />
             </div>
             <h3 style={styles.cardTitle}>Information Overload</h3>
             <p style={styles.cardText}>
@@ -33,9 +29,7 @@ const Problem = () => {
 
           <div style={styles.card} className="slide-up delay-300 dark-glass-panel">
             <div style={styles.iconWrap}>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M18 6L6 18M6 6L18 18" stroke="var(--primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
+              <img src="/new/shutterstock_502885915.jpg" alt="The App Trap" style={styles.iconImg} />
             </div>
             <h3 style={styles.cardTitle}>The App Trap</h3>
             <p style={styles.cardText}>
@@ -61,20 +55,24 @@ const styles = {
     marginTop: '60px',
   },
   card: {
-    padding: '40px',
+    padding: '30px',
     borderRadius: 'var(--radius-md)',
     textAlign: 'center',
     transition: 'transform 0.3s ease',
   },
   iconWrap: {
-    width: '60px',
-    height: '60px',
-    borderRadius: '50%',
-    backgroundColor: 'rgba(233, 161, 50, 0.1)',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    margin: '0 auto 24px',
+    width: '100%',
+    height: '180px',
+    borderRadius: 'var(--radius-sm)',
+    overflow: 'hidden',
+    marginBottom: '24px',
+  },
+  iconImg: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+    borderRadius: 'var(--radius-sm)',
+    transition: 'transform 0.4s ease',
   },
   cardTitle: {
     color: 'var(--white)',
