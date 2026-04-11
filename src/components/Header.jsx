@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { supabase } from '../supabaseClient';
 
-const Header = ({ onRegisterSuccess, onAdminLogin }) => {
+const Header = ({ onRegisterSuccess }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [registerOpen, setRegisterOpen] = useState(false);
   const [formData, setFormData] = useState({ 
@@ -32,14 +32,6 @@ const Header = ({ onRegisterSuccess, onAdminLogin }) => {
     if (!formData.agreeTerms) {
       setErrorMsg("You must agree to the terms and conditions");
       setStatus('error');
-      return;
-    }
-
-    if (formData.email === 'admin@limitless.com' && formData.password === 'limitlessadmin') {
-      setStatus('idle');
-      setRegisterOpen(false);
-      if (onAdminLogin) onAdminLogin();
-      window.scrollTo(0, 0);
       return;
     }
 
