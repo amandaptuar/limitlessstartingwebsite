@@ -83,7 +83,7 @@ const Header = ({ onRegisterSuccess }) => {
         <div className="container header-container">
           
           <div className="header-logo-wrap">
-            <img src="/img/limitless-logo.jpeg" alt="Limitless Logo" className="header-logo-img" />
+            <img src="./img/limitless-logo.webp" alt="Limitless Logo" className="header-logo-img" />
           </div>
           
           <div className="header-title-wrap">

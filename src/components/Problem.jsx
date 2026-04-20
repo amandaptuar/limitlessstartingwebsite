@@ -9,7 +9,7 @@ const Problem = () => {
         <div style={styles.grid}>
           <div style={styles.card} className="slide-up delay-100 dark-glass-panel">
             <div style={styles.iconWrap}>
-              <img src="/new/iStock-2177161931-1024x602.jpg" alt="Fragmented Systems" style={styles.iconImg} />
+              <img src="./new/iStock-2177161931-1024x602.webp" alt="Fragmented Systems" style={styles.iconImg} />
             </div>
             <h3 style={styles.cardTitle}>Fragmented Systems</h3>
             <p style={styles.cardText}>
@@ -19,7 +19,7 @@ const Problem = () => {
 
           <div style={styles.card} className="slide-up delay-200 dark-glass-panel">
             <div style={styles.iconWrap}>
-              <img src="/new/shutterstock_491481550.jpg" alt="Information Overload" style={styles.iconImg} />
+              <img src="./new/shutterstock_491481550.webp" alt="Information Overload" style={styles.iconImg} />
             </div>
             <h3 style={styles.cardTitle}>Information Overload</h3>
             <p style={styles.cardText}>
@@ -29,7 +29,7 @@ const Problem = () => {
 
           <div style={styles.card} className="slide-up delay-300 dark-glass-panel">
             <div style={styles.iconWrap}>
-              <img src="/new/shutterstock_502885915.jpg" alt="The App Trap" style={styles.iconImg} />
+              <img src="./new/shutterstock_502885915.webp" alt="The App Trap" style={styles.iconImg} />
             </div>
             <h3 style={styles.cardTitle}>The App Trap</h3>
             <p style={styles.cardText}>

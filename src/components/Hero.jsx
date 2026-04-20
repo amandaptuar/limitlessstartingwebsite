@@ -20,15 +20,15 @@ const Hero = () => {
           <p style={styles.proofText}>As used by founders and executives at:</p>
           <div style={styles.logos}>
             <div style={styles.logoItem}>
-              <img src="/img/logo-1.png" alt="Partner Logo 1" style={styles.logoImg} />
+              <img src="./img/logo-1.webp" alt="Partner Logo 1" style={styles.logoImg} />
             </div>
             <span style={styles.dot}>•</span>
             <div style={styles.logoItem}>
-              <img src="/img/logo-2.png" alt="Partner Logo 2" style={styles.logoImg} />
+              <img src="./img/logo-2.webp" alt="Partner Logo 2" style={styles.logoImg} />
             </div>
             <span style={styles.dot}>•</span>
             <div style={styles.logoItem}>
-              <img src="/img/1.jpg" alt="Partner Logo 3" style={styles.logoImg} />
+              <img src="./img/1.webp" alt="Partner Logo 3" style={styles.logoImg} />
             </div>
           </div>
         </div>

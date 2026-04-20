@@ -13,13 +13,13 @@ import AdminLogin from './components/AdminLogin';
 
 function App() {
   const [currentPage, setCurrentPage] = React.useState(() => {
-    return window.location.pathname === '/admin' ? 'admin_login' : 'home';
+    return window.location.pathname.match(/\/admin\/?$/) ? 'admin_login' : 'home';
   });
   const [userEmail, setUserEmail] = React.useState('');
 
   useEffect(() => {
     const handlePopState = () => {
-      setCurrentPage(window.location.pathname === '/admin' ? 'admin_login' : 'home');
+      setCurrentPage(window.location.pathname.match(/\/admin\/?$/) ? 'admin_login' : 'home');
     };
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
